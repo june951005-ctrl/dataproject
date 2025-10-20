@@ -13,6 +13,7 @@ def load_data():
 
 df = load_data()
 
+# 타이틀
 st.title("🌍 국가별 MBTI 비율 시각화")
 st.markdown("#### 선택한 국가의 16가지 MBTI 유형 분포를 확인해보세요!")
 
@@ -24,7 +25,7 @@ selected_country = st.selectbox("국가를 선택하세요", country_list, index
 country_data = df[df["Country"] == selected_country].iloc[0, 1:]
 country_data = country_data.sort_values(ascending=False)
 
-# 색상 설정 (1등 빨강, 나머지 점점 옅어지는 색상)
+# 색상 설정 (1등 빨강, 나머지는 점점 옅은 색)
 colors = ['#FF4C4C'] + ['#FFA07A' for _ in range(len(country_data) - 1)]
 
 # Plotly 그래프 생성
@@ -56,6 +57,6 @@ fig.update_layout(
 # 그래프 출력
 st.plotly_chart(fig, use_container_width=True)
 
-# 데이터 테이블 표시
+# 🔧 수정된 부분 (데이터프레임 표시)
 with st.expander("📋 원본 데이터 보기"):
-    st.dataframe(df[df["Country"] == selected_country].T.rename(columns={df["Country"] == selected_country: "비율"}))
+    st.dataframe(country_data.to_frame(name="비율"))
